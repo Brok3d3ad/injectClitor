@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.cms": "lua",
+        "tlhelp32.h": "c"
+    }
+}
