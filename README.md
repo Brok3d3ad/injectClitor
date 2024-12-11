@@ -1,54 +1,34 @@
-# MechsEarth Window Manager
+# MechsEarth DLL Injector
 
-A tool to manage window focus for MechsEarth application.
+A GUI application for injecting DLLs into MechsEarth processes.
 
 ## Features
 
-- Automatic window focus management
-- Process detection and DLL injection
-- User-friendly GUI interface
-- Real-time process monitoring
+- Clean and simple GUI interface
+- Automatic process detection
+- Multiple process injection support
+- Cache cleanup functionality
+- Built-in error handling and user feedback
 
-## Files
+## Requirements
 
-- `gui.py` - The main GUI application
-- `inject.c` - DLL source code for window management
-- `injector.cpp` - DLL injection utility
+- Windows OS
+- Python 3.6+ (if running from source)
+- Required Python packages (if running from source):
+  - tkinter
+  - Pillow
+  - psutil
+  - pyinstaller (for building)
 
-## Building
+## Installation
 
-### Prerequisites
+### Using Pre-built Executable
+1. Download the latest release
+2. Extract all files to a directory
+3. Run `MechsEarth DLL Injector.exe`
 
-- Python 3.x
-- MinGW-w64 (for C/C++ compilation)
-- PyInstaller
-
-### Compilation Steps
-
-1. Compile the DLL:
+### Building from Source
+1. Clone the repository
+2. Install required packages:
 ```bash
-gcc -shared -o final/active_window.dll inject.c -luser32
-```
-
-2. Compile the injector:
-```bash
-g++ injector.cpp -o final/injector.exe -O2 -static -s -DNDEBUG -luser32
-```
-
-3. Build the GUI:
-```bash
-cd final
-pyinstaller --noconsole --icon=logo.ico --add-data "logo.png;." --add-data "logo.ico;." --add-data "active_window.dll;." --add-data "injector.exe;." gui.py
-```
-
-## Usage
-
-1. Run the compiled executable from the `dist` folder
-2. Click "Refresh PIDs" to find running MechsEarth processes
-3. Click "Inject All" to apply window management
-
-## Notes
-
-- Requires administrative privileges for DLL injection
-- All files must be kept in the same directory as the executable
-- The application will automatically manage window focus after injection 
+pip install -

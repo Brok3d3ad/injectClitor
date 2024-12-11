@@ -10,12 +10,14 @@ import time
 import sys
 import tempfile
 import atexit
+import glob
+from pathlib import Path
 
 class SimpleInjector:
     def __init__(self, root):
         self.root = root
         self.root.title("MechsEarth DLL Injector")
-        self.root.geometry("400x500")
+        self.root.geometry("400x600")
         
         # Store temp directory path if we're running from PyInstaller
         if getattr(sys, 'frozen', False):
@@ -27,7 +29,7 @@ class SimpleInjector:
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         
         # Optional: Set minimum window size
-        self.root.minsize(400, 500)
+        self.root.minsize(400, 600)
         
         # Make sure window is in front when launched
         self.root.lift()
@@ -68,6 +70,7 @@ class SimpleInjector:
         # Buttons
         ttk.Button(self.frame, text="Refresh PIDs", command=self.refresh_pids).pack(fill=tk.X, pady=5)
         ttk.Button(self.frame, text="Inject All", command=self.inject_all).pack(fill=tk.X, pady=5)
+        ttk.Button(self.frame, text="Clear Cache", command=self.clear_cache).pack(fill=tk.X, pady=5)
 
         # Initial PID list population
         self.refresh_pids()
@@ -198,6 +201,43 @@ class SimpleInjector:
             messagebox.showerror("Injection Results", result_message)
         else:
             messagebox.showinfo("Success", result_message)
+
+    def clear_cache(self):
+        """Clear PyInstaller temporary folders from the temp directory"""
+        temp_dir = Path(tempfile.gettempdir())
+        mei_folders = list(temp_dir.glob("_MEI*"))
+        
+        if not mei_folders:
+            messagebox.showinfo("Cache Clear", "No cache folders found to clear.")
+            return
+            
+        cleared = []
+        failed = []
+        
+        for folder in mei_folders:
+            try:
+                shutil.rmtree(folder, ignore_errors=True)
+                cleared.append(folder.name)
+            except Exception as e:
+                failed.append(f"{folder.name}: {str(e)}")
+        
+        # Prepare result message
+        message = "Cache Clearing Results:\n\n"
+        
+        if cleared:
+            message += "Successfully cleared:\n"
+            message += "\n".join(f"- {folder}" for folder in cleared)
+            message += f"\n\nTotal cleared: {len(cleared)}"
+        
+        if failed:
+            message += "\n\nFailed to clear:\n"
+            message += "\n".join(f"- {error}" for error in failed)
+            message += f"\n\nTotal failed: {len(failed)}"
+            
+        if cleared:
+            messagebox.showinfo("Cache Clear", message)
+        else:
+            messagebox.showerror("Cache Clear", message)
 
     def on_closing(self):
         try:

@@ -1,4 +1,4 @@
-# Python build artifacts
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -26,20 +26,27 @@ wheels/
 build/
 dist/
 
-# Compiled files
-*.dll
-*.exe
-*.o
-*.obj
-
-# VS Code
+# IDEs
+.idea/
 .vscode/
+*.swp
+*.swo
+*~
 
 # Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+$RECYCLE.BIN/
 
-# Logs and databases
+# Compiled files
+*.dll
+*.exe
+*.pyd
+*.obj
+*.exp
+*.lib
+*.pdb
+
+# Logs
 *.log
-*.sqlite 
